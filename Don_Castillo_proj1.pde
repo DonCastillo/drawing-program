@@ -27,6 +27,7 @@ color blue = color(0, 0, 255);
 color violet = color(125, 0, 255);
 color magenta = color(255, 0, 255);
 color raspberry = color(255, 0, 125);
+color gray = color(128, 128, 128);
 
 
 void setup(){
@@ -49,7 +50,36 @@ void draw(){
     fill(brushColor);
     strokeWeight(brushWeight);
     stroke(brushColor, brushOpacity);
-    line(mouseX, mouseY, pmouseX, pmouseY);
+    
+    //line(mouseX, mouseY, pmouseX, pmouseY);
+    
+    //point(mouseX, mouseY);
+    //point(mouseX+10, mouseY+10);
+    //point(mouseX-10, mouseY-10);
+    //point(mouseX+10, mouseY-10);
+    //point(mouseX-10, mouseY+10);
+    //point(mouseX, mouseY+20);
+    //point(mouseX, mouseY-20);
+    //point(mouseX+20, mouseY);
+    //point(mouseX-20, mouseY);
+    
+    //line(mouseX, mouseY, pmouseX+5, pmouseY+5);
+    //line(mouseX, mouseY, pmouseX-5, pmouseY-5);
+    
+    //strokeWeight(1);
+    //fill(green);
+    //circle(mouseX, mouseY, 20);
+    
+    //fill(green);
+    //strokeWeight(1);
+    //noStroke();
+    //rectMode(CENTER);
+    //rect(mouseX, mouseY, 20, 20);
+    
+    
+    
+    
+
   } else {
     noStroke(); 
   }
@@ -138,7 +168,8 @@ void keyPressed(){
 
 
 void reset(){
-   setup();
+   background(canvasColor);
+   displayButtons();
 }
 
 void updateBrushWeight(int adder){
@@ -178,7 +209,9 @@ void displayButtons(){
   int h = 40;
   int margin = 5;
   
-  // create first column //////////////////////////////////
+  
+  
+  /*********************** create first column */
   color[] swatchesA = { red, orange, yellow, springGreen, green, turquoise, cyan, ocean, blue, violet }; 
   int posY = 10;
   int posX = 10;
@@ -191,10 +224,12 @@ void displayButtons(){
       posY = posY + h + margin;
       counter++;
   }
-  // create first column //////////////////////////////////
+  /*********************** create first column */
   
-  // create second column //////////////////////////////////
-  color[] swatchesB = { magenta, raspberry, black, white };
+  
+  
+  /*********************** create second column */
+  color[] swatchesB = { magenta, raspberry, black, white, gray, gray, gray, gray, gray };
   posY = 10;
   posX = 10 + w + margin;
   for(int i = 0; i < swatchesB.length; i++ ) {
@@ -205,9 +240,42 @@ void displayButtons(){
       counter++;
   }
   
-  // create second column //////////////////////////////////
   
-  // 
+  strokeWeight(3);
+  stroke(white);
+  noFill();
+  
+  // REGULAR BRUSH SYMBOL
+  bezier(88, 196, 84, 209, 67, 208, 61, 218);
+  
+  // AIR BRUSH SYMBOL
+  point(74, 254);
+  point(74, 254 + 10);
+  point(74, 254 - 10);
+  point(74 + 10, 254);
+  point(74 - 10, 254);
+  point(74 - 5, 254 - 5);
+  point(74 + 5, 254 + 5);
+  point(74 - 5, 254 + 5);
+  point(74 + 5, 254 - 5);
+  
+  // ARROW BRUSH SYMBOL
+  line(81, 288, 68, 300);
+  line(83, 305, 68, 300);
+  
+  // CIRCLE BRUSH SYMBOL
+  fill(white);
+  stroke(black);
+  circle(74, 345, 20);
+  
+  // SQUARE BRUSH SYMBOL
+  rectMode(CENTER);
+  rect(74, 390, 20, 20);
+  
+  /*********************** create second column */
+  
+  
+  
     
 }
 
