@@ -35,7 +35,7 @@ void setup(){
   canvasColor = color(255, 255, 255, 255); 
   
   // color, weight, opacity, type
-  brush = new Brush(black, 10, 255, "AIR");
+  brush = new Brush(black, 2, 255, "REGULAR");
   
   background(canvasColor);
   displayButtons();
@@ -104,6 +104,21 @@ void mousePressed(){
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 145 && mouseY <= 185) ){
     brush.bColor = white;
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 190 && mouseY <= 230) ){
+    brush.type = "REGULAR";
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 235 && mouseY <= 275) ){
+    brush.type = "AIR";
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 280 && mouseY <= 320) ){
+    brush.type = "ARROW";
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 325 && mouseY <= 365) ){
+    brush.type = "CIRCLE";
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 370 && mouseY <= 410) ){
+    brush.type = "SQUARE";
   }
 }
 
@@ -275,16 +290,14 @@ class Brush {
           break;
           
       case "CIRCLE":
-          strokeWeight(1);
-          stroke(black);
-          fill(bColor);
-          circle(mouseX, mouseY, 20);
+          noStroke();
+          fill(bColor, opacity);
+          circle(mouseX, mouseY, weight * 10);
           break;
           
       case "SQUARE":
-          fill(green);
-          strokeWeight(1);
           noStroke();
+          fill(bColor, opacity);
           rectMode(CENTER);
           rect(mouseX, mouseY, 20, 20);
           break; 
@@ -297,7 +310,7 @@ class Brush {
   
   
   void changeOpacity(int adder){
-      int min = 30, max = 255;
+      int min = 5, max = 255;
       int tempOpacity = opacity + adder;
       if(tempOpacity >= min && tempOpacity <= max){
         opacity = tempOpacity;
