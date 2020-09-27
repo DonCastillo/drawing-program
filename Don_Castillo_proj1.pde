@@ -44,12 +44,18 @@ void setup(){
 
 
 void draw(){
+  
   if(mousePressed && mouseX > 100){
+    cursor(CROSS);
     fill(brush.bColor, brush.opacity);
     strokeWeight(brush.weight);
     stroke(brush.bColor, brush.opacity);
     brush.use();
-  } else {
+  }
+  else if(mouseX > 100){
+    cursor(CROSS);
+  }
+  else {
     noStroke(); 
     noFill();
   }
@@ -62,63 +68,142 @@ void mousePressed(){
   
   println("mouseX: " + mouseX + " mouseY: " + mouseY);
 
-  
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 10 && mouseY <= 50) ){
     brush.bColor = red;
+    cursor(HAND);
   } 
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 55 && mouseY <= 95) ){
     brush.bColor = orange;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 100 && mouseY <= 140) ){
     brush.bColor = yellow;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 145 && mouseY <= 185) ){
     brush.bColor = springGreen;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 190 && mouseY <= 230) ){
     brush.bColor = green;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 235 && mouseY <= 275) ){
     brush.bColor = turquoise;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 280 && mouseY <= 320) ){
     brush.bColor = cyan;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 325 && mouseY <= 365) ){
     brush.bColor = ocean;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 370 && mouseY <= 410) ){
     brush.bColor = blue;
+    cursor(HAND);
   }
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 415 && mouseY <= 455) ){
     brush.bColor = violet;
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 10 && mouseY <= 50) ){
     brush.bColor = magenta;
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 55 && mouseY <= 95) ){
     brush.bColor = raspberry;
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 100 && mouseY <= 140) ){
     brush.bColor = black;
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 145 && mouseY <= 185) ){
     brush.bColor = white;
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 190 && mouseY <= 230) ){
     brush.type = "REGULAR";
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 235 && mouseY <= 275) ){
     brush.type = "AIR";
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 280 && mouseY <= 320) ){
     brush.type = "ARROW";
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 325 && mouseY <= 365) ){
     brush.type = "CIRCLE";
+    cursor(HAND);
   }
   if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 370 && mouseY <= 410) ){
     brush.type = "SQUARE";
+    cursor(HAND);
+  }
+}
+
+
+void mouseMoved(){
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 10 && mouseY <= 50) ){
+    cursor(HAND);
+  } 
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 55 && mouseY <= 95) ){
+   cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 100 && mouseY <= 140) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 145 && mouseY <= 185) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 190 && mouseY <= 230) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 235 && mouseY <= 275) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 280 && mouseY <= 320) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 325 && mouseY <= 365) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 370 && mouseY <= 410) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 415 && mouseY <= 455) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 10 && mouseY <= 50) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 55 && mouseY <= 95) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 100 && mouseY <= 140) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 145 && mouseY <= 185) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 190 && mouseY <= 230) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 235 && mouseY <= 275) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 280 && mouseY <= 320) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 325 && mouseY <= 365) ){
+    cursor(HAND);
+  }
+  if( (mouseX >= 55 && mouseX <= 95) && (mouseY >= 370 && mouseY <= 410) ){
+    cursor(HAND);
   }
 }
 
