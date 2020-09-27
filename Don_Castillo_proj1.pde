@@ -1,7 +1,7 @@
 /***********************
   Don Castillo, NMED 3380 B
   Project 1: Drawing Program
-  Last Modified: 9/26 
+  Last Modified: 9/27 
 ************************/
 
 // canvas variables
@@ -352,6 +352,7 @@ class Button {
       stroke(0);
       strokeWeight(1);
       fill(buttonColor);
+      rectMode(CORNER);
       rect(buttonX, buttonY, buttonWidth, buttonHeight);
     }
 };
