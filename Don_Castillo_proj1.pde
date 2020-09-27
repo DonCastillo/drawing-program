@@ -14,21 +14,28 @@ void setup(){
   size(800, 600);  
   background(canvasColor);
   displayButtons();
+  noStroke();
 
 }
 
 
 void draw(){
-  noStroke();
-  fill(brushColor);
-  strokeWeight(10);
-  stroke(0,0,0,255);
+  if(mousePressed && mouseX > 100){
+    fill(brushColor);
+    strokeWeight(5);
+    stroke(0, 0, 0, 30);
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  } else {
+    noStroke(); 
+  }
+
+  
 }
 
 
 void mousePressed(){
 
-  line(mouseX, mouseY, pmouseX, pmouseY);
+
 }
 
 void keyPressed(){
@@ -44,7 +51,7 @@ void keyPressed(){
 
 
 void reset(){
-   background(canvasColor);
+   setup();
 }
 
 
@@ -56,25 +63,54 @@ void reset(){
 void displayButtons(){
   
   color black = color(0, 0, 0);
+  color white = color(255, 255, 255);
   color red = color(255, 0, 0);
   color orange = color(255, 125, 0);
   color yellow = color(255, 255, 0);
-  color[] swatches = { red, orange, yellow }; 
+  color springGreen = color(125, 255, 0);
+  color green = color(0, 255, 0);
+  color turquoise = color(0, 255, 125);
+  color cyan = color(0, 255, 255);
+  color ocean = color(0, 125, 255);
+  color blue = color(0, 0, 255);
+  color violet = color(125, 0, 255);
+  color magenta = color(255, 0, 255);
+  color raspberry = color(255, 0, 125);
   Button colorButton;
   
-  int posY = 10;
-  int posX = 10;
   int w = 40;
   int h = 40;
   int margin = 5;
   
-  println(swatches.length);
-  for(int i = 0; i < swatches.length; i++ ) {
+  // create first column //////////////////////////////////
+  color[] swatchesA = { red, orange, yellow, springGreen, green, turquoise, cyan, ocean, blue, violet }; 
+  int posY = 10;
+  int posX = 10;
+
+    
+  for(int i = 0; i < swatchesA.length; i++ ) {
       println("x: " + posX + " y: " + posY);
-      colorButton = new Button(swatches[i], posX, posY, w, h);
+      colorButton = new Button(swatchesA[i], posX, posY, w, h);
+      colorButton.display();
+      posY = posY + h + margin;  
+  }
+  // create first column //////////////////////////////////
+  
+  // create second column //////////////////////////////////
+  color[] swatchesB = { magenta, raspberry, black, white };
+  posY = 10;
+  posX = 10 + w + margin;
+  for(int i = 0; i < swatchesB.length; i++ ) {
+      println("x: " + posX + " y: " + posY);
+      colorButton = new Button(swatchesB[i], posX, posY, w, h);
       colorButton.display();
       posY = posY + w + margin;  
   }
+  
+  // create second column //////////////////////////////////
+  
+  // 
+    
 }
 
 
