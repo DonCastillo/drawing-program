@@ -123,31 +123,43 @@ void mousePressed(){
 }
 
 void keyPressed(){
-  switch(key){
-    case 'c':
-    case 'C':
-      reset();
-      break;
-    default:
-      break;
-  }
-  switch(keyCode){
-    case UP:
-      println("UP");
-      brush.changeWeight(+2);
-      break;
-    case DOWN:
-      println("DOWN");
-      brush.changeWeight(-2);
-      break;
-    case LEFT:
-      println("LEFT");
-      brush.changeOpacity(-25);
-      break;
-    case RIGHT:
-      println("RIGHT");
-      brush.changeOpacity(+25);
-      break;
+  if(key == CODED)
+  {
+      switch(keyCode){
+      case UP:
+        println("UP");
+        brush.changeWeight(+2);
+        break;
+      case DOWN:
+        println("DOWN");
+        brush.changeWeight(-2);
+        break;
+      case LEFT:
+        println("LEFT");
+        brush.changeOpacity(-25);
+        break;
+      case RIGHT:
+        println("RIGHT");
+        brush.changeOpacity(+25);
+        break;
+      default:
+        break;
+      }
+  } 
+  else 
+  {
+      switch(key){
+        case 'c':
+        case 'C':
+          reset();
+          break;
+        case 's':
+        case 'S':
+          saveDrawing();
+          break;
+        default:
+          break;
+      }
   }
 }
 
@@ -157,9 +169,22 @@ void reset(){
    displayButtons();
 }
 
+String formatDate(int date){
+  if(date < 10){
+    return "0" + String.valueOf(date);
+  } 
+  return String.valueOf(date);
+}
 
-
-
+void saveDrawing(){
+  int day = day();
+  int month = month();
+  int year = year();
+  int hour = hour();
+  int min = minute();
+  int sec = second();
+  save(year + "-" + formatDate(month) + "-" + formatDate(day) + "-" + formatDate(hour) + formatDate(min) + formatDate(sec) + "-drawing.png");
+}
 
 
 
@@ -292,14 +317,14 @@ class Brush {
       case "CIRCLE":
           noStroke();
           fill(bColor, opacity);
-          circle(mouseX, mouseY, weight * 10);
+          circle(mouseX, mouseY, weight * 5);
           break;
           
       case "SQUARE":
           noStroke();
           fill(bColor, opacity);
           rectMode(CENTER);
-          rect(mouseX, mouseY, 20, 20);
+          rect(mouseX, mouseY, weight * 5, weight * 5);
           break; 
           
       default:
