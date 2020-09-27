@@ -35,7 +35,7 @@ void setup(){
   // set default values
   canvasColor = color(255, 255, 255, 255);      
   brushOpacity = 255;
-  brushWeight = 8;
+  brushWeight = 10;
   brushColor = color(0, 0, 0, brushOpacity);             
   
   background(canvasColor);
@@ -48,7 +48,7 @@ void draw(){
   if(mousePressed && mouseX > 100){
     fill(brushColor);
     strokeWeight(brushWeight);
-    stroke(brushColor);
+    stroke(brushColor, brushOpacity);
     line(mouseX, mouseY, pmouseX, pmouseY);
   } else {
     noStroke(); 
@@ -116,12 +116,53 @@ void keyPressed(){
     default:
       break;
   }
+  switch(keyCode){
+    case UP:
+      println("UP");
+      updateBrushWeight(+2);
+      break;
+    case DOWN:
+      println("DOWN");
+      updateBrushWeight(-2);
+      break;
+    case LEFT:
+      println("LEFT");
+      updateBrushOpacity(-25);
+      break;
+    case RIGHT:
+      println("RIGHT");
+      updateBrushOpacity(+25);
+      break;
+  }
 }
 
 
 void reset(){
    setup();
 }
+
+void updateBrushWeight(int adder){
+    int min = 2, max = 20;
+    int tempWeight = brushWeight + adder;
+    if(tempWeight >= min && tempWeight <= max){
+      brushWeight = tempWeight;
+    } else {
+      println("Brush Weight out of range!");
+    }
+    println(brushWeight);
+}
+
+void updateBrushOpacity(int adder){
+    int min = 30, max = 255;
+    int tempOpacity = brushOpacity + adder;
+    if(tempOpacity >= min && tempOpacity <= max){
+      brushOpacity = tempOpacity;
+    } else {
+      println("Brush Opacity out of range!");
+    }
+    println(brushOpacity);
+}
+
 
 
 /***********************
