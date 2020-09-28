@@ -4,13 +4,24 @@
   Last Modified: 9/27 
 ************************/
 
-// canvas variables
+
+/***********************
+@desc: Global Variables
+************************/
+
+// window color
 color canvasColor;
 
+// width of the palette, this sets which area of the canvas is drawable
+int paletteBarWidth;
 
+// determines if the mirroring functionality is enabled or not
+boolean mirroring;
+
+// sets an empty brush object
 Brush brush;
 
-// set color palettes
+// sets standard color schemes based off of the color wheel
 color black = color(0, 0, 0);
 color white = color(255, 255, 255);
 color red = color(255, 0, 0);
@@ -28,45 +39,84 @@ color raspberry = color(255, 0, 125);
 color gray = color(128, 128, 128);
 
 
-void setup(){
-  size(800, 600);
+
+/***********************
+@desc: Sets the default settings of the drawing program  
+************************/
+void setup()
+{
+  // sets the width and height of the window
+  size(1000, 600);
   
-  // set default values
+  // sets the width of the palette bar
+  // this separates the color palette bar and the drawing area
+  paletteBarWidth = 120;
+  
+  // initially disables the mirroring functionality
+  mirroring = false;
+  
+  // set default color of the canvas or window
   canvasColor = color(255, 255, 255, 255); 
+  background(canvasColor);
   
+  // initializes the bursh object
   // color, weight, opacity, type
   brush = new Brush(black, 2, 255, "REGULAR");
-  
-  background(canvasColor);
-  displayButtons();
-  noStroke();
 }
 
 
-void draw(){
+
+/***********************
+@desc: Add elements to the drawing area  
+************************/
+void draw()
+{
+  // displays buttons or the palette bar. 
+  // This is invoked in the draw() instead of setup() so that it repetitvely covers the previous 
+  // buttons which creates an impression that the brush cannot draw anything above it
+  displayButtons();
   
-  if(mousePressed && mouseX > 100){
+  // allows brush to draw on the canvas if the mouse is pressed and if mouseX is greater than the width of the palette bar.
+  if(mousePressed && mouseX > paletteBarWidth){
+    
+    // change mouse pointer to cross
     cursor(CROSS);
+    
+    // set fill to the current color and opacity of the brush
     fill(brush.bColor, brush.opacity);
+    
+    // set weight of the stroke to the current weight of the brush
     strokeWeight(brush.weight);
+    
+    // set the stroke to the current color and opacity of the brush
     stroke(brush.bColor, brush.opacity);
-    brush.use();
+    
+    // use the brush
+    brush.use(mirroring);
   }
   else if(mouseX > 100){
+    // change the mouse pointer to cross even if the brush is not pressed
     cursor(CROSS);
   }
   else {
+    // draw nothing
     noStroke(); 
     noFill();
   }
-  
-  
-  
 }
 
-void mousePressed(){
+
+
+
+/***********************
+@desc: Change brush settings depending on which button on the palette bar is pressed
+       These buttons change the color and the shape of the brush
+       Change mouse pointer to hand to create an impression that a button is being pressed
+************************/
+void mousePressed()
+{
   
-  println("mouseX: " + mouseX + " mouseY: " + mouseY);
+  //println("mouseX: " + mouseX + " mouseY: " + mouseY);
 
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 10 && mouseY <= 50) ){
     brush.bColor = red;
@@ -147,7 +197,11 @@ void mousePressed(){
 }
 
 
-void mouseMoved(){
+/***********************
+@desc: Change the mouse pointer to hand when it hovers above any buttons
+************************/
+void mouseMoved()
+{
   if( (mouseX >= 10 && mouseX <= 50) && (mouseY >= 10 && mouseY <= 50) ){
     cursor(HAND);
   } 
@@ -207,41 +261,53 @@ void mouseMoved(){
   }
 }
 
-void keyPressed(){
-  if(key == CODED)
-  {
+
+/***********************
+@desc: Invokes a function depending on which key is pressed
+************************/
+void keyPressed()
+{
+  if(key == CODED){
       switch(keyCode){
       case UP:
-        println("UP");
+        // add brush weight or size by 2
         brush.changeWeight(+2);
         break;
       case DOWN:
-        println("DOWN");
+        // reduce brush weight or size by 2
         brush.changeWeight(-2);
         break;
       case LEFT:
-        println("LEFT");
+        // reduce brush opacity by 25
         brush.changeOpacity(-25);
         break;
       case RIGHT:
-        println("RIGHT");
+        // add brush opacity by 25
         brush.changeOpacity(+25);
         break;
       default:
         break;
       }
   } 
-  else 
-  {
+  else{
       switch(key){
         case 'c':
         case 'C':
+          // clears the drawing area when 'c' is pressed
           reset();
           break;
         case 's':
         case 'S':
+          // saves the drawing when 's' is pressed
           saveDrawing();
           break;
+        case 'm':
+        case 'M':
+          // toggles mirroring when 'm' is pressed
+          if(mirroring == true)
+            mirroring = false;
+          else
+            mirroring = true;
         default:
           break;
       }
@@ -249,19 +315,42 @@ void keyPressed(){
 }
 
 
-void reset(){
+
+/***********************
+@desc: Clears the drawing area
+************************/
+void reset()
+{
    background(canvasColor);
    displayButtons();
 }
 
-String formatDate(int date){
+
+
+/***********************
+@desc: Format date number.
+       If the number is less than 10, prepend a zero to it. Ex: 9 => 09
+       Else retain the number as is
+@params:  date number, ex: month, day, hour, min, sec
+@returns:  String value of the number
+************************/
+String formatDate(int date)
+{
   if(date < 10){
     return "0" + String.valueOf(date);
   } 
   return String.valueOf(date);
 }
 
-void saveDrawing(){
+
+
+/***********************
+@desc: Saves the drawing to a .PNG file
+       File naming convention: year-month-day-hourminutesecond-drawing.png
+       File naming convention prevents previous drawing/image from being overwritten 
+************************/
+void saveDrawing()
+{
   int day = day();
   int month = month();
   int year = year();
@@ -277,7 +366,8 @@ void saveDrawing(){
 @desc: Displays all buttons
 ************************/
 
-void displayButtons(){
+void displayButtons()
+{
   
   Button colorButton;
   
@@ -285,76 +375,91 @@ void displayButtons(){
   int w = 40;
   int h = 40;
   
-  // how far each button from each other
+  // how far each button is from each other
   int margin = 5;
   
-  
+  // put a white background below the palettes
+  fill(white);
+  noStroke();
+  rectMode(CORNER);
+  rect(0, 0, paletteBarWidth, height);
   
   /*********************** create first column */
-  color[] swatchesA = { red, orange, yellow, springGreen, green, turquoise, cyan, ocean, blue, violet }; 
-  int posY = 10;
-  int posX = 10;
-  int counter = 1;
-    
-  for(int i = 0; i < swatchesA.length; i++ ) {
-      println("#" + counter + " x: " + posX + " y: " + posY + " w: " + w + " h: " + h);
-      colorButton = new Button(swatchesA[i], posX, posY, w, h);
-      colorButton.display();
-      posY = posY + h + margin;
-      counter++;
-  }
+      // button colors on the first column of the palette bar
+      color[] swatchesA = { red, orange, yellow, springGreen, green, turquoise, cyan, ocean, blue, violet }; 
+      
+      // initial x,y coors of the first button
+      int posY = 10;
+      int posX = 10;
+      int counter = 1;
+        
+      // iterate through the array of colors and create a buttons out of it
+      for(int i = 0; i < swatchesA.length; i++ ) {
+          //println("#" + counter + " x: " + posX + " y: " + posY + " w: " + w + " h: " + h);
+          // create a button obj with specified colors, positioning, and size
+          colorButton = new Button(swatchesA[i], posX, posY, w, h);
+          
+          // display button
+          colorButton.display();
+          
+          // update posY to set y-coor of the next button
+          posY = posY + h + margin;
+          counter++;
+      }
 
   
   /*********************** create second column */
-  color[] swatchesB = { magenta, raspberry, black, white, gray, gray, gray, gray, gray };
-  posY = 10;
-  posX = 10 + w + margin;
-  for(int i = 0; i < swatchesB.length; i++ ) {
-      println("#" + counter + " x: " + posX + " y: " + posY + " w: " + w + " h: " + h);
-      colorButton = new Button(swatchesB[i], posX, posY, w, h);
-      colorButton.display();
-      posY = posY + w + margin;  
-      counter++;
-  }
+      color[] swatchesB = { magenta, raspberry, black, white, gray, gray, gray, gray, gray };
+      posY = 10;
+      posX = 10 + w + margin;
+      for(int i = 0; i < swatchesB.length; i++ ) {
+          println("#" + counter + " x: " + posX + " y: " + posY + " w: " + w + " h: " + h);
+          colorButton = new Button(swatchesB[i], posX, posY, w, h);
+          colorButton.display();
+          posY = posY + w + margin;  
+          counter++;
+      }
   
-  // Draw button symbols
-  strokeWeight(3);
-  stroke(white);
-  noFill();
-  
-  // REGULAR BRUSH SYMBOL
-  bezier(88, 196, 84, 209, 67, 208, 61, 218);
-  
-  // AIR BRUSH SYMBOL
-  point(74, 254);
-  point(74, 254 + 10);
-  point(74, 254 - 10);
-  point(74 + 10, 254);
-  point(74 - 10, 254);
-  point(74 - 5, 254 - 5);
-  point(74 + 5, 254 + 5);
-  point(74 - 5, 254 + 5);
-  point(74 + 5, 254 - 5);
-  
-  // ARROW BRUSH SYMBOL
-  line(81, 288, 68, 300);
-  line(83, 305, 68, 300);
-  
-  // CIRCLE BRUSH SYMBOL
-  fill(white);
-  stroke(black);
-  circle(74, 345, 20);
-  
-  // SQUARE BRUSH SYMBOL
-  rectMode(CENTER);
-  rect(74, 390, 20, 20);
+      // Draw button symbols
+      strokeWeight(3);
+      stroke(white);
+      noFill();
+      
+      // REGULAR BRUSH SYMBOL
+      bezier(88, 196, 84, 209, 67, 208, 61, 218);
+      
+      // AIR BRUSH SYMBOL
+      point(74, 254);
+      point(74, 254 + 10);
+      point(74, 254 - 10);
+      point(74 + 10, 254);
+      point(74 - 10, 254);
+      point(74 - 5, 254 - 5);
+      point(74 + 5, 254 + 5);
+      point(74 - 5, 254 + 5);
+      point(74 + 5, 254 - 5);
+      
+      // ARROW BRUSH SYMBOL
+      line(81, 288, 68, 300);
+      line(83, 305, 68, 300);
+      
+      // CIRCLE BRUSH SYMBOL
+      fill(white);
+      stroke(black);
+      circle(74, 345, 20);
+      
+      // SQUARE BRUSH SYMBOL
+      rectMode(CENTER);
+      rect(74, 390, 20, 20);
 }
 
 
+
 /***********************
-  Brush Class
+@dec: Brush Class
 ************************/
-class Brush {
+class Brush 
+{
   color bColor;
   int opacity, weight;
   String type;
@@ -363,7 +468,8 @@ class Brush {
   @desc: Creates brush object, initializes brush object specs
   @params: Color, weight, opacity, type
   ************************/
-  Brush(color pBColor, int pWeight, int pOpacity, String pType){
+  Brush(color pBColor, int pWeight, int pOpacity, String pType)
+  {
     weight = pWeight;
     opacity = pOpacity;
     bColor = pBColor;
@@ -373,13 +479,21 @@ class Brush {
   /***********************
   @desc: Use brush depending on its type.
          Types of brushes: REGULAR, AIR, ARROW, CIRCLE, SQUARE
+  @params: mirroring
+           If mirroring is true, draw the mirrored version of the element drawn
+           Else draw the element without the mirrored version
   ************************/
-  void use(){
-
+  void use(boolean pMirroring)
+  {
+    
     switch(type){
       
       case "REGULAR": 
           line(mouseX, mouseY, pmouseX, pmouseY);
+          
+          if(pMirroring){
+            line(width + paletteBarWidth - mouseX, height - mouseY, width + paletteBarWidth - pmouseX, height - pmouseY);
+          }
           break;
       
       case "AIR": 
@@ -391,18 +505,40 @@ class Brush {
           point(mouseX, mouseY+20);
           point(mouseX, mouseY-20);
           point(mouseX+20, mouseY);
-          point(mouseX-20, mouseY); 
+          point(mouseX-20, mouseY);
+          
+          if(pMirroring){
+            point(width + paletteBarWidth - mouseX, height - mouseY);
+            point(width + paletteBarWidth - mouseX + 10, height - mouseY + 10);
+            point(width + paletteBarWidth - mouseX - 10, height - mouseY - 10);
+            point(width + paletteBarWidth - mouseX + 10, height - mouseY - 10);
+            point(width + paletteBarWidth - mouseX - 10, height - mouseY + 10);
+            point(width + paletteBarWidth - mouseX, height - mouseY + 20);
+            point(width + paletteBarWidth - mouseX, height - mouseY - 20);
+            point(width + paletteBarWidth - mouseX + 20, height - mouseY);
+            point(width + paletteBarWidth - mouseX - 20, height - mouseY); 
+          }
           break;
           
       case "ARROW":
           line(mouseX, mouseY, pmouseX+5, pmouseY+5);
           line(mouseX, mouseY, pmouseX-5, pmouseY-5);
+          
+          if(pMirroring){
+            line(width + paletteBarWidth - mouseX, height - mouseY, width + paletteBarWidth - pmouseX + 5, height - pmouseY + 5);
+            line(width + paletteBarWidth - mouseX, height - mouseY, width + paletteBarWidth - pmouseX - 5, height - pmouseY - 5);
+          }
           break;
           
       case "CIRCLE":
           noStroke();
           fill(bColor, opacity);
           circle(mouseX, mouseY, weight * 5);
+          
+          if(pMirroring){
+            circle(width + paletteBarWidth - mouseX, height - mouseY, weight * 5);
+          }
+          
           break;
           
       case "SQUARE":
@@ -410,6 +546,11 @@ class Brush {
           fill(bColor, opacity);
           rectMode(CENTER);
           rect(mouseX, mouseY, weight * 5, weight * 5);
+          
+          if(pMirroring){
+            rect(width + paletteBarWidth - mouseX, height - mouseY, weight * 5, weight * 5);
+          }
+          
           break; 
           
       default:
@@ -419,7 +560,14 @@ class Brush {
   }
   
   
-  void changeOpacity(int adder){
+  /***********************
+  @desc: Update the current opacity of the brush
+  @params: adder
+           negative adder is subtracted from the current value of the brush's opacity
+           positive adder is added from the current value of the brush's opacity
+  ************************/
+  void changeOpacity(int adder)
+  {
       int min = 5, max = 255;
       int tempOpacity = opacity + adder;
       if(tempOpacity >= min && tempOpacity <= max){
@@ -430,8 +578,14 @@ class Brush {
       println(opacity);
   }
   
-  
-  void changeWeight(int adder){
+  /***********************
+  @desc: Update the current weight of the brush
+  @params: adder
+           negative adder is subtracted from the current value of the brush's weight
+           positive adder is added from the current value of the brush's weight
+  ************************/
+  void changeWeight(int adder)
+  {
       int min = 2, max = 20;
       int tempWeight = weight + adder;
       if(tempWeight >= min && tempWeight <= max){
@@ -449,7 +603,7 @@ class Brush {
 
 
 /***********************
-  Button Class
+@desc: Button Class
 ************************/
 class Button {
     color buttonColor;
@@ -460,7 +614,8 @@ class Button {
     @desc: Creates button object, initializes button object specs
     @params: Color, x-coor, y-coor, width, height
     ************************/
-    Button(color pButtonColor, int pButtonX, int pButtonY, int pButtonWidth, int pButtonHeight){
+    Button(color pButtonColor, int pButtonX, int pButtonY, int pButtonWidth, int pButtonHeight)
+    {
         buttonColor = pButtonColor;
         buttonX = pButtonX;
         buttonY = pButtonY;
@@ -471,7 +626,8 @@ class Button {
     /***********************
     @desc: Displays button object on the window
     ************************/
-    void display(){
+    void display()
+    {
       stroke(0);
       strokeWeight(1);
       fill(buttonColor);
