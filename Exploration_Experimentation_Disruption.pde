@@ -34,4 +34,11 @@ that is beyond what was taught in class:
     named based on the date/time it was saved.
 
 
+2.  Briefly outline how your program disrupts or challenges our expectations or assumptions of what a drawing program is 
+    or how it should operate 
+    
+    My drawing program offers a lot of settings to the brush. User can manipulate the color, shape, opacity, and size/weight.
+    The user can also enable color randomization to create a multicolor brush strokes. The user can also enable mirroring so
+    that two versions of the drawing is produced (the other version mirrors the original drawing).
+
 */
