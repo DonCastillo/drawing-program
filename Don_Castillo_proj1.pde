@@ -17,6 +17,7 @@ int paletteBarWidth;
 
 // determines if the mirroring functionality is enabled or not
 boolean mirroring;
+boolean randomizeColors;
 
 // sets an empty brush object
 Brush brush;
@@ -54,6 +55,7 @@ void setup()
   
   // initially disables the mirroring functionality
   mirroring = false;
+  randomizeColors = false;
   
   // set default color of the canvas or window
   canvasColor = color(255, 255, 255, 255); 
@@ -90,6 +92,14 @@ void draw()
     
     // set the stroke to the current color and opacity of the brush
     stroke(brush.bColor, brush.opacity);
+    
+    if(randomizeColors){
+      float red = random(0.00, 255.00);
+      float blue = random(0.00, 255.00);
+      float green = random(0.00, 255.00);
+      fill(red, blue, green, brush.opacity);
+      stroke(red, blue, green, brush.opacity);      
+    }
     
     // use the brush
     brush.use(mirroring);
@@ -300,6 +310,13 @@ void keyPressed()
         case 'S':
           // saves the drawing when 's' is pressed
           saveDrawing();
+          break;
+        case 'r':
+        case 'R':
+          if(randomizeColors == true)
+            randomizeColors = false;
+          else
+            randomizeColors = true;
           break;
         case 'm':
         case 'M':
@@ -532,7 +549,7 @@ class Brush
           
       case "CIRCLE":
           noStroke();
-          fill(bColor, opacity);
+          //fill(bColor, opacity);
           circle(mouseX, mouseY, weight * 5);
           
           if(pMirroring){
@@ -543,7 +560,7 @@ class Brush
           
       case "SQUARE":
           noStroke();
-          fill(bColor, opacity);
+          //fill(bColor, opacity);
           rectMode(CENTER);
           rect(mouseX, mouseY, weight * 5, weight * 5);
           
