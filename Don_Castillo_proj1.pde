@@ -17,6 +17,8 @@ int paletteBarWidth;
 
 // determines if the mirroring functionality is enabled or not
 boolean mirroring;
+
+// determines if color randomization is enabled or not
 boolean randomizeColors;
 
 // sets an empty brush object
@@ -376,6 +378,7 @@ void saveDrawing()
   int sec = second();
   save(year + "-" + formatDate(month) + "-" + formatDate(day) + "-" + formatDate(hour) + formatDate(min) + formatDate(sec) + "-drawing.png");
 }
+ 
 
 
 
@@ -430,7 +433,7 @@ void displayButtons()
       posY = 10;
       posX = 10 + w + margin;
       for(int i = 0; i < swatchesB.length; i++ ) {
-          println("#" + counter + " x: " + posX + " y: " + posY + " w: " + w + " h: " + h);
+          //println("#" + counter + " x: " + posX + " y: " + posY + " w: " + w + " h: " + h);
           colorButton = new Button(swatchesB[i], posX, posY, w, h);
           colorButton.display();
           posY = posY + w + margin;  
@@ -462,12 +465,82 @@ void displayButtons()
       
       // CIRCLE BRUSH SYMBOL
       fill(white);
-      stroke(black);
       circle(74, 345, 20);
       
       // SQUARE BRUSH SYMBOL
       rectMode(CENTER);
       rect(74, 390, 20, 20);
+      
+      // preview box, properties adjusted as per current brush properties
+      Button preview = new Button(white, 10, 500, w * 2 + margin, h * 2 + margin);
+      preview.display();
+      
+      if(randomizeColors == true){
+        noStroke();
+        fill(red);
+        rect(10, 500, 19, 86);  
+        fill(orange);
+        rect(29, 500, 19, 86);
+        fill(yellow);
+        rect(48, 500, 19, 86);
+        fill(green);
+        rect(67, 500, 19, 86);
+        fill(blue);
+        rect(86, 500, 9, 86);
+        noFill();
+        strokeWeight(brush.weight);
+        stroke(gray, brush.opacity);
+      } else {
+        fill(white);
+        stroke(black);
+        strokeWeight(1);
+        rect(10, 500, w * 2 + margin, h * 2 + margin);
+        noFill();
+        strokeWeight(brush.weight);
+        stroke(brush.bColor, brush.opacity);
+      }
+      
+      switch(brush.type){
+        case "REGULAR":
+          bezier(77, 519, 69, 545, 44, 537, 33, 563);
+          break;
+        case "AIR":
+          point(53, 543);
+          point(53, 543 + 15);
+          point(53, 543 - 15);
+          point(53 + 15, 543);
+          point(53 - 15, 543);
+          point(53 - 7.5, 543 - 7.5);
+          point(53 + 7.5, 543 + 7.5);
+          point(53 - 7.5, 543 + 7.5);
+          point(53 + 7.5, 543 - 7.5);
+          break;
+        case "ARROW":
+          line(60, 525, 37, 549);
+          line(68, 552, 37, 549);
+          break;
+        case "CIRCLE":
+          noStroke();
+          if(randomizeColors == true){
+            fill(gray, brush.opacity);
+          } else { 
+            fill(brush.bColor, brush.opacity);
+          }
+          circle(53, 543, brush.weight * 4);
+          break;
+        case "SQUARE":
+          noStroke();
+          rectMode(CENTER);
+          if(randomizeColors == true){
+            fill(gray, brush.opacity);
+          } else { 
+            fill(brush.bColor, brush.opacity);
+          }
+          rect(53, 543, brush.weight * 4, brush.weight * 4);
+          break;
+        default:
+          break;
+      }
 }
 
 
@@ -549,7 +622,6 @@ class Brush
           
       case "CIRCLE":
           noStroke();
-          //fill(bColor, opacity);
           circle(mouseX, mouseY, weight * 5);
           
           if(pMirroring){
@@ -560,7 +632,6 @@ class Brush
           
       case "SQUARE":
           noStroke();
-          //fill(bColor, opacity);
           rectMode(CENTER);
           rect(mouseX, mouseY, weight * 5, weight * 5);
           
@@ -590,9 +661,9 @@ class Brush
       if(tempOpacity >= min && tempOpacity <= max){
         opacity = tempOpacity;
       } else {
-        println("Brush Opacity out of range!");
+        //println("Brush Opacity out of range!");
       }
-      println(opacity);
+      //println(opacity);
   }
   
   /***********************
@@ -608,9 +679,9 @@ class Brush
       if(tempWeight >= min && tempWeight <= max){
         weight = tempWeight;
       } else {
-        println("Brush Weight out of range!");
+        //println("Brush Weight out of range!");
       }
-      println(weight);
+      //println(weight);
   }  
 };
 
