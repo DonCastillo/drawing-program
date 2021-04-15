@@ -1,5 +1,4 @@
 # Drawing Program
-First Processing project 
 
 ## GUI
 The user is presented with a default white drawing area. The palette board on the left side contains
