@@ -1,18 +1,19 @@
 # Drawing Program
+First Processing project 
 
 ## GUI
 The user is presented with a default white drawing area. The palette board on the left side contains
 color and shape buttons to manipulate the brush settings. The initial brush settings are:
 
-color: black
-shape/type: pen
-opacity: 100% (completely opaque)
-weight/size: 2px
+* color: black
+* shape/type: pen
+* opacity: 100% (completely opaque)
+* weight/size: 2px
 
 The bottom-left figure previews the current brush settings like color, stroke weight/size, opacity, and 
 shape/type of the brush. It also shows whether the color randomizer is enabled or not.
 
-<img src="./screenshots/2021-04-15-153157-drawing.png" alt="GUI">
+<img src="./screenshots/2021-04-15-155614-drawing.png" alt="GUI">
   
   
 ## HOW TO DRAW
